@@ -18,6 +18,14 @@ const routes: Routes = [
     path: 'catalog',
     loadChildren: () => import('remoteCatalog/ItemsModule').then(m => m.ItemsModule)
   },
+  {
+    path: 'orders',
+    loadChildren: () => import('remoteOrdering/OrdersModule').then(m => m.OrdersModule)
+  },
+  {
+    path: 'export-orders',
+    loadChildren: () => import('remoteOrdering/ExportOrdersModule').then(m => m.ExportOrdersModule)
+  },
 ];
 
 @NgModule({
