@@ -10,7 +10,7 @@ sharedMappings.register(
 
 module.exports = {
   output: {
-    uniqueName: "remoteCatalog",
+    uniqueName: "host",
     publicPath: "auto",
   },
   optimization: {
@@ -29,17 +29,16 @@ module.exports = {
         library: { type: "module" },
 
         // For remotes (please adjust)
-        name: "remoteCatalog",
-        filename: "remoteEntry.js",
-        exposes: {
-            './ItemsModule': './projects/remote-catalog/src/app/items/items.module.ts',
-        },        
+        // name: "host",
+        // filename: "remoteEntry.js",
+        // exposes: {
+        //     './Component': './projects/host/src/app/app.component.ts',
+        // },        
         
-        // For hosts (please adjust)
-        // remotes: {
-        //     "host": "http://localhost:4200/remoteEntry.js",
-
-        // },
+        //For hosts (please adjust)
+        remotes: {
+            "remoteCatalog": "http://localhost:4201/remoteEntry.js",
+        },
 
         shared: share({
           "@angular/core": { singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
