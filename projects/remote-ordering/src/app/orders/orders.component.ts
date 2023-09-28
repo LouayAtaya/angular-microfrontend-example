@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserManagementService } from '@shared/user-management';
+import { distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-orders',
@@ -6,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
+  isLoggedIn$ = this.userService.isUserLoggedIn$;
   product: Product[] = [];
   state = true;
   j = 0;
@@ -14,8 +18,33 @@ export class OrdersComponent implements OnInit {
   indeterminate = false;
   listOfCurrentPageData: readonly Product[] = [];
   setOfCheckedId = new Set<number>();
-  ngOnInit(): void {
-    this.fillProduct();
+
+  constructor(private userService: UserManagementService, private router: Router) {
+    //Event bus
+    const busEvent = new CustomEvent('app-event-bus', {
+      bubbles: true,
+      detail: {
+        eventType: 'orders',
+        customData: 'orders some data here'
+      }
+    });
+    dispatchEvent(busEvent);
+  }
+
+  ngOnInit() {
+    this.isLoggedIn$
+      .pipe(distinctUntilChanged())
+      .subscribe(async (loggedIn) => {
+        // Queue the navigation after initialNavigation blocking is completed
+        setTimeout(() => {
+          if (!loggedIn) {
+            console.log("loggedIn", loggedIn)
+            this.router.navigateByUrl('login');
+          } else {
+            this.fillProduct();
+          }
+        });
+      });
   }
 
   fillProduct() {

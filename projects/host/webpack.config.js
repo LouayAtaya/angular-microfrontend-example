@@ -39,6 +39,7 @@ module.exports = {
         remotes: {
             "remoteCatalog": "http://localhost:4201/remoteEntry.js",
             "remoteOrdering": "http://localhost:4202/remoteEntry.js",
+            "remoteUserManagement": "http://localhost:4203/remoteEntry.js",
         },
 
         shared: share({
@@ -46,7 +47,11 @@ module.exports = {
           "@angular/common": { singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
           "@angular/common/http": { singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
           "@angular/router": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
-
+          //sharedMappings: {singleton: true,packageName:'@shared/user-management'},
+          "@shared/user-management": {
+            "singleton": true,
+            "import": "dist/shared/user-management"
+          },
           ...sharedMappings.getDescriptors()
         })
         

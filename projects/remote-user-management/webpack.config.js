@@ -10,7 +10,7 @@ sharedMappings.register(
 
 module.exports = {
   output: {
-    uniqueName: "remoteOrdering",
+    uniqueName: "remoteUserManagement",
     publicPath: "auto"
   },
   optimization: {
@@ -28,18 +28,18 @@ module.exports = {
     new ModuleFederationPlugin({
         library: { type: "module" },
 
-        // For remotes (please adjust)
-        name: "remoteOrdering",
+        //For remotes (please adjust)
+        name: "remoteUserManagement",
         filename: "remoteEntry.js",
         exposes: {
-            './OrdersModule': './projects/remote-ordering/src/app/orders/orders.module.ts',
-            './ExportOrdersModule': './projects/remote-ordering/src/app/export-orders/export-orders.module.ts',
+            './LoginModule': './projects/remote-user-management/src/app/login/login.module.ts',
         },        
         
         // For hosts (please adjust)
         // remotes: {
         //     "host": "http://localhost:4200/remoteEntry.js",
         //     "remoteCatalog": "http://localhost:4201/remoteEntry.js",
+        //     "remoteOrdering": "http://localhost:4202/remoteEntry.js",
 
         // },
 
@@ -50,11 +50,14 @@ module.exports = {
           "@angular/router": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
           //sharedMappings: {singleton: true,packageName:'@shared/user-management'},
           "@shared/user-management": {
-              "singleton": true,
-              "import": "dist/shared/user-management"
+            "singleton": true,
+            "import": "dist/shared/user-management"
           },
           ...sharedMappings.getDescriptors()
+          
         }),
+        
+ 
         
     }),
     sharedMappings.getPlugin()

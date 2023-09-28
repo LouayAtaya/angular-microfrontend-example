@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,18 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   isCollapsed = false;
+
+  constructor(){
+
+  }
+
+  ngOnInit() {
+    fromEvent<CustomEvent>(window, 'app-event-bus').subscribe((e) =>   this.onEventHandler(e));
+  }
+
+  onEventHandler(e: CustomEvent) {
+    if (e.detail.eventType === 'orders') {
+      alert(e.detail.customData)
+    }
+  }
 }
